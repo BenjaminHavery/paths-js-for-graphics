@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import makeSector from 'paths-js/sector';
 
 
-export default ({
+const Body = ({
   r = 100,
   cx = 50,
   cy = 50,
@@ -23,13 +23,14 @@ export default ({
     <>
       <circle className='body' {...{ r, cx, cy, strokeWidth }}/>
       
-      { Array.from({ length: 2 }).map((_, key) => (
+      { Array.from({ length: 2 }).map((_, i) => (
         <circle
           className='eye'
           r={r/4}
-          cx={cx - (r/3) * (!key ? 1 : -1)}
+          cx={cx - (r/3) * (!i ? 1 : -1)}
           cy={cy - r/6}
-          {...{ key, strokeWidth }}
+          key={i}
+          {...{ strokeWidth }}
         />
       ))}
       
@@ -53,3 +54,5 @@ export default ({
     </>
   )
 }
+
+export default Body

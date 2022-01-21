@@ -4,7 +4,7 @@ import { useState } from 'react';
 import useAnimationFrame from 'hooks/useAnimationFrame';
 
 
-export default () => {
+const FrameTest = () => {
   const [playing, setPlaying] = useState(false);
   const frame = useAnimationFrame(playing);
 
@@ -16,3 +16,5 @@ export default () => {
     </div>
   )
 }
+
+export default FrameTest

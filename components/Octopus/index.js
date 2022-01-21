@@ -9,7 +9,7 @@ import Body from './Body';
 import Tentacles from './Tentacles';
 
 
-export default ({ sz = 1000 }) => {
+const Octopus = ({ sz = 1000 }) => {
 
   const [cx, cy, r, R] = useMemo(() => [sz*(1/2), sz*(2/5), sz*(3/20), sz*(9/20)], [sz]);
   
@@ -40,7 +40,7 @@ export default ({ sz = 1000 }) => {
         }}/>
 
       </BigSquareSvg>
-      
+
       <pre>{ JSON.stringify({ frame }) }</pre>
 
 
@@ -55,3 +55,5 @@ export default ({ sz = 1000 }) => {
     </>
   )
 }
+
+export default Octopus

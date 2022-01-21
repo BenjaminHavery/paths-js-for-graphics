@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import Tentacle from './Tentacle';
 
 
-export default ({
+const Tentacles = ({
   number = 80,
   r = 100,
   R = 200,
@@ -27,8 +27,8 @@ export default ({
 
   return (
     <>
-      { tentacles.map((t, key) => (
-        <g transform={`rotate(${t.degrees}, ${cx}, ${cy})`} {...{ key }}>
+      { tentacles.map((t, i) => (
+        <g transform={`rotate(${t.degrees}, ${cx}, ${cy})`} key={i}>
           <Tentacle {...{
             x: cx,
             y: cy - r,
@@ -42,3 +42,5 @@ export default ({
     </>
   )
 }
+
+export default Tentacles

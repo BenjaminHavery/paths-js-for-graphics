@@ -7,7 +7,7 @@ import Bezier from 'paths-js/bezier';
 import BigSquareSvg from '/components/BigSquareSvg';
 
 
-export default ({ sz = 1000 }) => {
+const Scratchpad = ({ sz = 1000 }) => {
 
   const path = useMemo(() => Path()
     .moveto(sz*0.10, sz*0.20)
@@ -15,7 +15,7 @@ export default ({ sz = 1000 }) => {
     .lineto(sz*0.25, sz*0.28)
     .qcurveto(sz*0.27, sz*0.30, sz*0.32, sz*0.27)
     .closepath()
-  );
+  , [sz]);
 
   const bezier = useMemo(() => Bezier({
     points: [
@@ -25,7 +25,7 @@ export default ({ sz = 1000 }) => {
       [sz*2/3, sz*2/3],
     ],
     tension: 0,
-  }).path.closepath());
+  }).path.closepath(), [sz]);
 
   return (
     <BigSquareSvg title='Scratchpad' {...{ sz }}>
@@ -45,3 +45,5 @@ export default ({ sz = 1000 }) => {
     </BigSquareSvg>
   )
 }
+
+export default Scratchpad

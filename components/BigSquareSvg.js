@@ -1,8 +1,8 @@
 
-import { useMemo } from 'react';
+import { useMemo } from 'react'
 
 
-export default ({ sz = 1000, title = '', children, onClick, color: fill = 'black' }) => {
+const BigSquareSvg = ({ sz = 1000, title = '', children, onClick, color: fill = 'black' }) => {
 
   const [height, width, h, w] = useMemo(() => Array.from({ length: 4 }, () => sz), [sz]);
 
@@ -27,3 +27,5 @@ export default ({ sz = 1000, title = '', children, onClick, color: fill = 'black
     </svg>
   )
 }
+
+export default BigSquareSvg

@@ -6,7 +6,7 @@ import useInterval from 'hooks/useInterval';
 import makeBezier from 'paths-js/bezier';
 
 
-export default ({
+const Tentacle = ({
   x = 0, y = 0, // Tentacle base position
   l: _l = 100, // Tentacle length, aliased to apply random variation before using it
   t: _t = 1000, // Tentacle AI movement frequency in ms, aliased to apply random variation before using it
@@ -53,7 +53,7 @@ export default ({
         return 0;
       }),
   ], [articulationPoints, hasThought, thought]); // Regenerate when "thought" changes to "decide" next tentacle shape
-  
+
 
   const points = useMemo(() => pointMods.map((m, i, a) => {
     const mPrev = !prevPointMods.length ? 0 : prevPointMods[i];
@@ -85,3 +85,5 @@ export default ({
     </>
   )
 }
+
+export default Tentacle
