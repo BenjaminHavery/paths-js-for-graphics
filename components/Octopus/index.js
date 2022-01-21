@@ -45,12 +45,12 @@ const Octopus = ({ sz = 1000 }) => {
 
       <div className='controls'>
         {[
-          { name: 'Tentacles', type: 'number', value: number, update: setNumber },
+          { name: 'Tentacles', type: 'number', value: number, onChange: (e) => setNumber(Math.max(2, e.target.value)) },
           // { name: 'Animating', type: 'checkbox', value: playing, update: (v) => setPlaying(!!v) },
-        ].map(({ name, type, value, update }, i) => (
+        ].map(({ name, type, value, onChange }, i) => (
           <p key={i}>
             <span>{name}:</span>
-            <input onChange={(e) => update(e.target.value)} {...{ type, value }}/>
+            <input {...{ type, value, onChange }}/>
           </p>
         ))}
       </div>
