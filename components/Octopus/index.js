@@ -26,7 +26,10 @@ const Octopus = ({ sz = 1000 }) => {
 
   return (
     <div className='octopus-demo'>
-      <BigSquareSvg title='Octopus SVG paths demo' color='white' className='octopus' onClick={() => setPlaying(!playing)} {...{ sz }}>
+      <BigSquareSvg title='Octopus SVG paths demo' color='white' className='octopus'
+        // onClick={() => setPlaying(!playing)}
+        {...{ sz }}
+      >
 
         <Tentacles {...{
           cx, cy, r, R, number, frame,
