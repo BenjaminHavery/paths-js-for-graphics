@@ -16,7 +16,6 @@ const PageHome = () => (
         flex-flow: column nowrap;
         align-items: center;
         justify-content: center;
-        background: #2c2ce5;
       }
     `}</style>
     <style jsx global>{`
