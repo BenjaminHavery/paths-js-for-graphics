@@ -1,15 +1,16 @@
 
 import { useMemo } from 'react';
-
 import makeSector from 'paths-js/sector';
 
+import { useDimCx, useDimCy, useDimR1, useDimStrokeWidthBody } from './store/slices/dim';
 
-const Body = ({
-  r = 100,
-  cx = 50,
-  cy = 50,
-  strokeWidth = 5,
-}) => {
+
+const Body = () => {
+
+  const cx = useDimCx(),
+        cy = useDimCy(),
+        r = useDimR1(),
+        strokeWidth = useDimStrokeWidthBody();
   
   const dMouth = useMemo(() => makeSector({
     center: [cx, cy + r/4],
@@ -19,16 +20,17 @@ const Body = ({
     end: (3/2) * Math.PI,
   }).path.print(), [r, cx, cy]);
 
+  
   return (
     <>
-      <circle className='body' {...{ r, cx, cy, strokeWidth }}/>
+      <circle className='body' {...{ cx, cy, r, strokeWidth }}/>
       
       { Array.from({ length: 2 }).map((_, i) => (
         <circle
           className='eye'
-          r={r/4}
           cx={cx - (r/3) * (!i ? 1 : -1)}
           cy={cy - r/6}
+          r={r/4}
           key={i}
           {...{ strokeWidth }}
         />

@@ -1,46 +1,41 @@
 
 import { useMemo } from 'react';
 
+import { useDimCx, useDimCy, useDimR1 } from './store/slices/dim';
+import { useArmsCount, useArmsSector1, useArmsSector2 } from './store/slices/arms';
+
 import Tentacle from './Tentacle';
 
 
-const Tentacles = ({
-  number = 80,
-  r = 100,
-  R = 200,
-  cx = 50,
-  cy = 50,
-  start = 0,
-  end = 2 * Math.PI,
-  strokeWidth = 5,
-  frame,
-}) => {
+const Tentacles = ({ frame }) => {
+  
+  const cx = useDimCx(),
+        cy = useDimCy(),
+        r = useDimR1();
 
-  const l = useMemo(() => R - r, [R, r]);
+  const number = useArmsCount(),
+        start = useArmsSector1(),
+        end = useArmsSector2();
+
+
   const spread = useMemo(() => end - start, [start, end]);
   const joined = useMemo(() => (spread >= 2 * Math.PI), [spread])
 
-  const tentacles = useMemo(() => Array.from({ length: number }, (_, i) => ({
-    degrees: (start + (i/(number - (joined ? 0 : 1))) * (spread)) * (180/Math.PI), // Rotate perpendicular to body surface
-  })), [number, start, spread, joined]);
+  const armsRotation = useMemo(() => (Array
+    .from({ length: number })
+    .map((_,i) => start + spread * (i/(number - (joined ? 0 : 1))) )
+  ), [number, start, spread, joined]);
 
 
-  return (
-    <>
-      { tentacles.map((t, i) => (
-        <g transform={`rotate(${t.degrees}, ${cx}, ${cy})`} key={i}>
-          <Tentacle {...{
-            x: cx,
-            y: cy - r,
-            l, strokeWidth,
-            frame,
-          }}/>
-        </g>
-      ))}
-
-      {/* <style jsx>{``}</style> */}
-    </>
-  )
+  return armsRotation.map((a, i) => (
+    <g key={i} transform={`rotate(${a * 360}, ${cx}, ${cy})`}>
+      <Tentacle {...{
+        x: cx,
+        y: cy - r,
+        frame,
+      }}/>
+    </g>
+  ))
 }
 
 export default Tentacles
