@@ -6,24 +6,26 @@ import useInterval from 'hooks/useInterval';
 
 import { useDimStrokeWidthArms } from './store/slices/dim';
 import { useArmLength, useArmKinks, useArmDuration, useArmLengthRange, useArmKinksRange, useArmDurationRange } from './store/slices/arm';
+import { useFrame } from './store/extras/frame';
 
 
-const Tentacle = ({ x = 0, y = 0, frame }) => {
+const Arm = ({ x = 0, y = 0 }) => {
 
   const _l = useArmLength(), // Arm length, aliased to apply random variation before using it
-        _t = useArmDuration(), // Tentacle AI movement frequency in ms, aliased to apply random variation before using it
+        _t = useArmDuration(), // AI movement frequency in ms, aliased to apply random variation before using it
         articulationPoints = useArmKinks(), // Number of movable tentacle "joints"
         lVar = useArmLengthRange(), // Maximum fraction of total by which tentacle length can vary
         oVar = useArmKinksRange(), // Maximum fraction of tentacle length by which articulation point offset can vary
         tVar = useArmDurationRange(), // Maximum fraction of total by which thought interval can vary
-        strokeWidth = useDimStrokeWidthArms();
+        strokeWidth = useDimStrokeWidthArms(),
+        frame = useFrame();
 
 
   // BRAIN
-  const [thought, setThought] = useState(0); // Tentacle AI tick
+  const [thought, setThought] = useState(0); // Arm AI tick
   const hasThought = useMemo(() => !!thought, [thought]); // No randomness affecting HTML on thought 0, to avoid conflicts between server generated and hydrated HTML in Next.js
   const tMod = useMemo(() => (Math.random() - 0.5) * 2, []);
-  const t = useMemo(() => _t * 1000 * (1 + tVar * tMod), [_t, tVar, tMod]); // Tentacle AI tick interval
+  const t = useMemo(() => _t * 1000 * (1 + tVar * tMod), [_t, tVar, tMod]); // Arm AI tick interval
 
   const [aFrac, setAFrac] = useState(0); // Movement position between thoughts as a scalar
   // const aFrac = useMemo(() => (frame.t - thought) / t, [frame, thought, t]);
@@ -64,16 +66,12 @@ const Tentacle = ({ x = 0, y = 0, frame }) => {
     ];
   }), [x, y, oVar, l, pointMods, prevPointMods, aFrac]);
 
-  const dTentacle = useMemo(() => makeBezier({ points, tension: 0 }).path.print(), [points]);
+  const d = useMemo(() => makeBezier({ points, tension: 0 }).path.print(), [points]);
 
 
   return (
     <>
-      <path {...{
-        className: 'tentacle',
-        d: dTentacle,
-        strokeWidth,
-      }}/>
+      <path className='arm' {...{ d, strokeWidth }}/>
 
 
       <style jsx>{`
@@ -86,4 +84,4 @@ const Tentacle = ({ x = 0, y = 0, frame }) => {
   )
 }
 
-export default Tentacle
+export default Arm

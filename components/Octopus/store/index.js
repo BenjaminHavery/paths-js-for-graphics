@@ -5,6 +5,8 @@ import dimensions from './slices/dim';
 import arms from './slices/arms';
 import arm from './slices/arm';
 
+import { FrameProvider } from './extras/frame';
+
 
 const store = makeStore({
   slices: [
@@ -22,15 +24,22 @@ const store = makeStore({
 });
 
 const {
-  StoreProvider,
+  StoreProvider: _StoreProvider, // Aliased for modification prior to export
   useDispatch,
   usePlayingAi,
   usePlayingAnimation,
 } = store;
 
 export {
-  StoreProvider,
   useDispatch,
   usePlayingAi,
   usePlayingAnimation,
 };
+
+export const StoreProvider = ({ children }) => (
+  <_StoreProvider>
+    <FrameProvider>
+      { children }
+    </FrameProvider>
+  </_StoreProvider>
+)

@@ -1,16 +1,13 @@
 
-import { useMemo, useState } from 'react';
-
-import useAnimationFrame from '/hooks/useAnimationFrame';
-
-import { StoreProvider, useDispatch, usePlayingAnimation } from './store';
+import { StoreProvider } from './store';
 import { useDimSz } from './store/slices/dim';
-import { useArmsCount } from './store/slices/arms';
 
 import BigSquareSvg from '/components/BigSquareSvg';
 
 import Body from './Body';
-import Tentacles from './Tentacles';
+import Arms from './Arms';
+import FrameInfo from './FrameInfo';
+import ControlPanel from './ControlPanel';
 
 
 const Octopus = () => (
@@ -24,13 +21,7 @@ export default Octopus
 
 const _Octopus = () => {
 
-  const dispatch = useDispatch();
-
   const sz = useDimSz();
-  const count = useArmsCount();
-  const playing = usePlayingAnimation();
-  const frame = useAnimationFrame(playing);
-
 
   return (
     <div className='octopus-demo'>
@@ -40,23 +31,11 @@ const _Octopus = () => {
         className='octopus'
         {...{ sz }}
       >
-        <Tentacles {...{ frame }}/>
+        <Arms/>
         <Body/>
       </BigSquareSvg>
-
-      <pre>{ JSON.stringify({ frame }) }</pre>
-
-      <div className='controls'>
-        {[
-          { name: 'Tentacles', type: 'number', value: count, onChange: (e) => dispatch({ type: 'setArmsCount', value: e.target.value }) },
-          // { name: 'Animating', type: 'checkbox', value: playing, update: (v) => setPlaying(!!v) },
-        ].map(({ name, type, value, onChange }, i) => (
-          <p key={i}>
-            <span>{name}:</span>
-            <input {...{ type, value, onChange }}/>
-          </p>
-        ))}
-      </div>
+      <FrameInfo/>
+      <ControlPanel/>
 
 
       <style jsx>{`
@@ -65,27 +44,18 @@ const _Octopus = () => {
           width: 100%;
           background: #2c2ce5;
         }
-        :global(.octopus-demo svg.octopus) {}
+        // :global(.octopus-demo svg.octopus) {}
 
-        pre, .controls {
+        :global(.octopus-demo .frame-info),
+        :global(.octopus-demo .control-panel) {
           position: absolute;
           margin: 0;
           padding: 1vmin;
           bottom: 0;
           color: white;
         }
-        pre {
-          left: 0;
-        }
-        .controls {
-          right: 0;
-        }
-        .controls p {
-          margin: 20px 0 0;
-        }
-        .controls span {
-          margin-right: 20px;
-        }
+        :global(.octopus-demo .frame-info) { left: 0; }
+        :global(.octopus-demo .control-panel) { right: 0; }
       `}</style>
     </div>
   )
