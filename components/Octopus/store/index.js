@@ -20,7 +20,10 @@ const store = makeStore({
       animation: true,
     },
   },
-  actions: {},
+  actions: {
+    setPlayingAi: (s,a) => ({ ...s, playing: { ...s.playing, ai: !!a.value }}),
+    setPlayingAnimation: (s,a) => ({ ...s, playing: { ...s.playing, animation: !!a.value }}),
+  },
 });
 
 const {

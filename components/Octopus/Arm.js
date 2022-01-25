@@ -4,6 +4,7 @@ import makeBezier from 'paths-js/bezier';
 
 import useInterval from 'hooks/useInterval';
 
+import { usePlayingAi } from './store';
 import { useDimStrokeWidthArms } from './store/slices/dim';
 import { useArmLength, useArmKinks, useArmDuration, useArmLengthRange, useArmKinksRange, useArmDurationRange } from './store/slices/arm';
 import { useFrame } from './store/extras/frame';
@@ -18,6 +19,7 @@ const Arm = ({ x = 0, y = 0 }) => {
         oVar = useArmKinksRange(), // Maximum fraction of tentacle length by which articulation point offset can vary
         tVar = useArmDurationRange(), // Maximum fraction of total by which thought interval can vary
         strokeWidth = useDimStrokeWidthArms(),
+        playingAi = usePlayingAi(),
         frame = useFrame();
 
 
@@ -35,7 +37,7 @@ const Arm = ({ x = 0, y = 0 }) => {
     setThought(thought + t);
     setPrevPointMods(pointMods);
     setAFrac(0); // Reset animation progress
-  }, t);
+  }, (playingAi ? t : null));
   useEffect(() => setAFrac(Math.min(1, aFrac + (frame.dt / t))), [frame, t]);
 
   // DIMENSIONS
